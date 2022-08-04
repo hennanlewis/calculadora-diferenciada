@@ -2,6 +2,10 @@
 
 Este é um projeto simples de uma calculadora, porém funciona através do cálculo da expressão inserida e leva em consideração a ordem de prioridade entre das operações matemáticas (transforma uma expressão infixa convencional a posfixa para calcular o resultado).
 
+![Screenshot](public/screenshot.jpg)
+
+[Clique aqui para acessar a página da aplicação no Github Pages.](https://hennanlewis.github.io/calculadora-diferenciada)
+
 ### Mas o que é uma expressão infixa e posfixa?
 
 Na expressão infixa, a posição dos operadores matemáticos fica entre os números, da seguinte forma: `a+b`.
