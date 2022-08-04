@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import url('https: //fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap');
-
-button {
-	@apply h-12 duration-200 backdrop-blur
-}
