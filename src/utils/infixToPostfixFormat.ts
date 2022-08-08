@@ -8,7 +8,7 @@ export const infixToPostfixFormat = (expression: string): string[] => {
 	let operationsStackTop: string
 	let output: string[] = []
 
-	normalizedExpression.map(item => {
+	normalizedExpression.map((item) => {
 		if (!isNaN(Number(item))) {
 			output.push(item)
 			return null
@@ -19,9 +19,22 @@ export const infixToPostfixFormat = (expression: string): string[] => {
 			return null
 		}
 
-		if (item === ")") {
-			while (1) {
+		if (
+			item === "+" ||
+			item === "-" ||
+			item === "*" ||
+			item === "/" ||
+			item === "^"
+		) {
+			for (;;) {
 				operationsStackTop = operationsStack.pop() as string
+
+				if (priorityOrder(item, operationsStackTop)) {
+					operationsStack.push(operationsStackTop)
+					operationsStack.push(item)
+					return null
+				}
+
 				output.push(operationsStackTop)
 
 				if (operationsStackTop === "(" || !operationsStackTop) {
@@ -30,33 +43,35 @@ export const infixToPostfixFormat = (expression: string): string[] => {
 			}
 		}
 
-		while (1) {
+		for (;;) {
 			operationsStackTop = operationsStack.pop() as string
-
-			if (priorityOrder(item, operationsStackTop)) {
-				operationsStack.push(operationsStackTop)
-				operationsStack.push(item)
-				return null
-			}
-
-			output.push(operationsStackTop)
 
 			if (operationsStackTop === "(" || !operationsStackTop) {
 				return null
 			}
+
+			output.push(operationsStackTop)
 		}
 	})
 
 	return output
 }
 
-const operatorPriority: Priority = { "^": 3, "*": 2, "/": 2, "+": 1, "-": 1, "(": 0 }
+const operatorPriority: Priority = {
+	"^": 3,
+	"*": 2,
+	"/": 2,
+	"+": 1,
+	"-": 1,
+	"(": 0,
+}
 
 const priorityOrder = (currentOperator: string, operationsStackTop: string) => {
 	const operationPriorityValue = operatorPriority[currentOperator]
-	const operationsStackTopOperationPriorityValue = operatorPriority[operationsStackTop]
+	const operationsStackTopOperationPriorityValue =
+		operatorPriority[operationsStackTop]
 
-	return (operationPriorityValue > operationsStackTopOperationPriorityValue)
+	return operationPriorityValue > operationsStackTopOperationPriorityValue
 }
 
 const normalizeExpression = (expression: string): string[] => {
