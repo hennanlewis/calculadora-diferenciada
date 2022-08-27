@@ -1,18 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-import { infixToPostfixFormat } from "./utils/infixToPostfixFormat"
 import { calculatePostfixFormat } from "./utils/calculatePostfixFormat"
+import { infixToPostfixFormat } from "./utils/infixToPostfixFormat"
+import { validateExpression } from "./utils/validadeExpression"
 import { Display } from "./components/Display"
 import { Buttons } from "./components/Buttons"
-import { validateExpression } from "./utils/validadeExpression"
 
 function App() {
 	const [displayExpression, setDisplayExpression] = useState("0")
 	const [displayValue, setDisplayValue] = useState("0")
+	const [typedValue, setTypedValue] = useState({ amount: 0, value: "" })
 
-	const handleClickButton = (event: React.MouseEvent<HTMLButtonElement>) => {
-		const button = event.currentTarget.innerText
-
+	const handleClickButton = (button: string | undefined) => {
 		if (!button) return
 
 		if (button === "=") {
@@ -23,10 +22,9 @@ function App() {
 			)
 			const postfixExpression = infixToPostfixFormat(validInfixExpression)
 
-			console.log(postfixExpression, calculatePostfixFormat(postfixExpression))
-
 			setDisplayValue(calculatePostfixFormat(postfixExpression))
 			setDisplayExpression("0")
+			setTypedValue({ amount: 0, value: "" })
 			return
 		}
 
@@ -58,6 +56,10 @@ function App() {
 		setDisplayExpression(displayExpression + button)
 	}
 
+	useEffect(() => {
+		handleClickButton(typedValue.value)
+	}, [typedValue])
+
 	return (
 		<div className="flex justify-center items-center h-screen bg-gray-900 font-Quicksand text-white shadow">
 			<div className="flex flex-col w-[14rem] bg-gray-800 gap-4 p-2 pt-4 border rounded-2xl">
@@ -65,7 +67,7 @@ function App() {
 					displayExpression={displayExpression}
 					displayValue={displayValue}
 				/>
-				<Buttons handleClickButton={handleClickButton} />
+				<Buttons handleClickButton={setTypedValue} />
 			</div>
 		</div>
 	)
