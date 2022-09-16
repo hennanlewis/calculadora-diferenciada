@@ -1,7 +1,5 @@
 export const Buttons = (props: {
-	handleClickButton: React.Dispatch<
-		React.SetStateAction<{ amount: number; value: string }>
-	>
+	handleClickButton: (button: string) => void
 }) => {
 	const { handleClickButton } = props
 	const buttons = [
@@ -65,14 +63,7 @@ export const Buttons = (props: {
 					key={item.name}
 					data-testid={item.id ? item.id : `button${item.name}`}
 					className={item.className}
-					onClick={() =>
-						handleClickButton((oldValue) => {
-							return {
-								amount: oldValue.amount + 1,
-								value: item.name,
-							}
-						})
-					}
+					onClick={() => handleClickButton(item.name)}
 				>
 					{item.name}
 				</button>

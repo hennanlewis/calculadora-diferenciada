@@ -1,4 +1,4 @@
-import { validateExpression } from "../utils/validadeExpression"
+import { validateExpression } from "../utils/validateExpression"
 
 interface DisplayProps {
 	displayExpression: string
